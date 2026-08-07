@@ -125,11 +125,23 @@
   }
   .item:hover{border-color:#2a3d61}
   .item .row{display:flex;gap:16px;align-items:flex-start}
-  .num{
-    flex:0 0 auto;width:38px;height:38px;border-radius:50%;
-    border:1.5px solid var(--card-edge);display:flex;align-items:center;justify-content:center;
-    font-family:var(--serif);font-size:17px;color:var(--ink-dim);transition:.15s;margin-top:2px;
+
+  /* ===== Poster ===== */
+  .poster-wrap{
+    position:relative;flex:0 0 auto;width:66px;height:99px;margin-top:2px;
+    border-radius:9px;overflow:hidden;background:#101a2e;
+    border:1px solid var(--card-edge);
   }
+  .poster{width:100%;height:100%;object-fit:cover;display:block;transition:filter .2s}
+  /* Logos are wider than they are tall — letterbox them instead of cropping */
+  .poster.wide{object-fit:contain;padding:5px;background:#0b1424}
+  .num{
+    position:absolute;top:0;left:0;min-width:21px;height:19px;padding:0 6px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:13px;color:var(--ink);
+    background:rgba(6,10,20,.82);border-bottom-right-radius:8px;
+  }
+  .tick{display:none}
   .body{flex:1;min-width:0}
   .title-line{font-family:var(--serif);font-size:20px;color:var(--ink);line-height:1.3}
   .meta{font-family:var(--mono);font-size:13px;color:var(--ink-faint);margin-top:3px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
@@ -156,17 +168,20 @@
   .details-row{display:flex;flex-wrap:wrap}
 
   /* watched state */
-  .item.watched{opacity:.45;border-color:rgba(74,222,128,.25)}
-  .item.watched .num{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.1)}
-  .item.watched .num::before{content:"✓";font-size:16px}
-  .item.watched .num span{display:none}
+  .item.watched{opacity:.55;border-color:rgba(74,222,128,.25)}
+  .item.watched .poster-wrap{border-color:rgba(74,222,128,.4)}
+  .item.watched .poster{filter:grayscale(1) brightness(.42)}
+  .item.watched .tick{
+    display:flex;position:absolute;inset:0;align-items:center;justify-content:center;
+    font-size:32px;color:var(--green);text-shadow:0 2px 12px rgba(0,0,0,.8);
+  }
   .item.watched .title-line{text-decoration:line-through;text-decoration-color:rgba(154,167,191,.6);text-decoration-thickness:1px}
   body.hide-watched .item.watched{display:none}
 
   /* ===== Stop point ===== */
   .stop{
     border:1px solid rgba(229,72,77,.4);background:rgba(229,72,77,.06);
-    border-radius:14px;padding:14px 18px;margin:4px 0 14px 54px;font-size:14px;color:var(--ink-dim);
+    border-radius:14px;padding:14px 18px;margin:4px 0 14px 82px;font-size:14px;color:var(--ink-dim);
   }
   .stop b{font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--red);display:block;margin-bottom:4px}
 
@@ -203,6 +218,9 @@
     .stop{margin-left:0}
     .tile{min-width:76px}
     .tile b{font-size:34px}
+    .item .row{gap:12px}
+    .poster-wrap{width:56px;height:84px}
+    .item{padding:16px 14px}
   }
 </style>
 </head>
@@ -246,10 +264,55 @@
 
 <footer>
   FAN-MADE TRACKER · NOT AFFILIATED WITH DC STUDIOS OR WARNER BROS.<br>
+  POSTER ART VIA WIKIPEDIA · COPYRIGHT REMAINS WITH ITS OWNERS<br>
   RT SCORES ARE APPROXIMATE SNAPSHOTS · PROGRESS IS STORED ONLY ON THIS DEVICE
 </footer>
 
 <script>
+/* ================= POSTERS ================= */
+/* Poster art, keyed by entry id. Hosted by Wikimedia — the same images used on
+   each film's Wikipedia page. A few entries only have a title logo rather than a
+   poster; those are letterboxed by the .wide class instead of being cropped. */
+const POSTERS = {
+  superman78:'https://upload.wikimedia.org/wikipedia/en/b/b0/Superman_%281978_film_poster%29.jpg',
+  superman2:'https://upload.wikimedia.org/wikipedia/en/3/36/Superman_II.jpg',
+  superman3:'https://upload.wikimedia.org/wikipedia/en/9/9f/Superman_III_poster.jpg',
+  superman4:'https://upload.wikimedia.org/wikipedia/en/5/5c/Superman_iv.jpg',
+  batman89:'https://upload.wikimedia.org/wikipedia/en/5/5a/Batman_%281989%29_theatrical_poster.jpg',
+  batreturns:'https://upload.wikimedia.org/wikipedia/en/8/83/Batman_returns_poster2.jpg',
+  batforever:'https://upload.wikimedia.org/wikipedia/en/9/9d/Batman_Forever_poster.png',
+  batrobin:'https://upload.wikimedia.org/wikipedia/en/3/37/Batman_%26_Robin_poster.jpg',
+  begins:'https://upload.wikimedia.org/wikipedia/en/a/af/Batman_Begins_Poster.jpg',
+  tdk:'https://upload.wikimedia.org/wikipedia/en/1/1c/The_Dark_Knight_%282008_film%29.jpg',
+  tdkr:'https://upload.wikimedia.org/wikipedia/en/8/83/Dark_knight_rises_poster.jpg',
+  mos:'https://upload.wikimedia.org/wikipedia/en/5/50/Man_of_Steel_%28film%29_poster.jpg',
+  bvs:'https://upload.wikimedia.org/wikipedia/en/3/31/Batman_v_Superman_Dawn_of_Justice_poster.jpg',
+  ss16:'https://upload.wikimedia.org/wikipedia/en/5/5c/Suicide_Squad_%282016_film%29_poster.png',
+  ww:'https://upload.wikimedia.org/wikipedia/en/b/b0/Wonder_Woman_%282017_film%29_poster.jpg',
+  jl:'https://upload.wikimedia.org/wikipedia/en/6/6b/Justice_League_%28film%29_poster.jpg',
+  aquaman:'https://upload.wikimedia.org/wikipedia/en/e/ed/Aquaman_%28film%29_poster.jpg',
+  shazam:'https://upload.wikimedia.org/wikipedia/en/c/c2/Shazam%21_%28film%29_poster.jpg',
+  bop:'https://upload.wikimedia.org/wikipedia/en/1/1c/Birds_of_Prey_%282020_film%29_poster.jpg',
+  ww84:'https://upload.wikimedia.org/wikipedia/en/4/4f/Wonder_Woman_1984_poster.png',
+  tss:'https://upload.wikimedia.org/wikipedia/en/0/06/The_Suicide_Squad_%28film%29_poster.jpg',
+  pm1:'https://upload.wikimedia.org/wikipedia/en/f/fe/Peacemaker_season_1_poster.jpg',
+  blackadam:'https://upload.wikimedia.org/wikipedia/en/a/a9/Black_Adam_%28film%29_poster.jpg',
+  shazam2:'https://upload.wikimedia.org/wikipedia/en/f/fb/Shazam%21_Fury_of_the_Gods_%282023%29_Main_Poster.png',
+  flash:'https://upload.wikimedia.org/wikipedia/en/e/ed/The_Flash_%28film%29_poster.jpg',
+  bluebeetle:'https://upload.wikimedia.org/wikipedia/en/6/68/Blue_Beetle_%28film%29_poster.jpg',
+  aquaman2:'https://upload.wikimedia.org/wikipedia/en/4/4a/Aquaman_and_the_Lost_Kingdom_poster.jpg',
+  joker:'https://upload.wikimedia.org/wikipedia/en/e/e1/Joker_%282019_film%29_poster.jpg',
+  joker2:'https://upload.wikimedia.org/wikipedia/en/e/e8/Joker_-_Folie_%C3%A0_Deux_poster.jpg',
+  thebatman:'https://upload.wikimedia.org/wikipedia/en/f/ff/The_Batman_%28film%29_poster.jpg',
+  penguin:'https://upload.wikimedia.org/wikipedia/commons/d/d4/The_Penguin_%28TV_series%29_logo.png',
+  cc:'https://upload.wikimedia.org/wikipedia/en/c/c6/Creature_Commandos_%28TV_series%29_logo.jpg',
+  superman25:'https://upload.wikimedia.org/wikipedia/en/3/32/Superman_%282025_film%29_poster.jpg',
+  pm2:'https://upload.wikimedia.org/wikipedia/en/2/24/Peacemaker_season_2_poster.jpg',
+  supergirl26:'https://upload.wikimedia.org/wikipedia/en/5/58/Supergirl_%282026_film%29_poster.jpg',
+  lanterns:'https://upload.wikimedia.org/wikipedia/en/1/1f/Lanterns_%28TV_series%29_logo.png',
+  clayface:'https://upload.wikimedia.org/wikipedia/en/4/4f/Clayface_%28film%29_poster.jpg'
+};
+
 /* ================= DATA ================= */
 /* type: 'item' | 'side' | 'stop'
    badge: 'CORE' | 'OPTIONAL' | 'LEGACY'
@@ -442,9 +505,15 @@ function render(){
       } else {
         stepNo++;
         const badgeCls = e.badge==='CORE'?'b-core':(e.badge==='LEGACY'?'b-legacy':'b-opt');
+        const art = POSTERS[e.id];
+        const plainTitle = e.title.replace(/&amp;/g,'&');
         html += `<div class="item" data-id="${e.id}" data-part="${pi}">
           <div class="row">
-            <div class="num"><span>${stepNo}</span></div>
+            <div class="poster-wrap">
+              ${art?`<img class="poster" src="${art}" alt="${plainTitle} poster" loading="lazy" decoding="async">`:''}
+              <span class="num">${stepNo}</span>
+              <span class="tick">✓</span>
+            </div>
             <div class="body">
               <div class="title-line">${e.title}</div>
               <div class="meta"><span>${e.meta}</span>${e.rt?`<span class="rt">🍅 ${e.rt}%</span>`:''}</div>
@@ -470,6 +539,16 @@ function render(){
   </div>`;
 
   root.innerHTML = html;
+
+  /* Entries that only have a title logo are wider than they are tall — letterbox
+     those instead of cropping. If an image can't be fetched, drop it and leave the
+     numbered placeholder rather than showing a broken frame. */
+  root.querySelectorAll('.poster').forEach(img => {
+    const onLoad = () => { if(img.naturalWidth > img.naturalHeight) img.classList.add('wide'); };
+    const onError = () => img.remove();
+    if(img.complete){ img.naturalWidth ? onLoad() : onError(); }
+    else { img.addEventListener('load', onLoad); img.addEventListener('error', onError); }
+  });
 
   /* wire items */
   root.querySelectorAll('.item').forEach(el => {
