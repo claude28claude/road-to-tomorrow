@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Road to Tomorrow — Every DC Movie &amp; Show to Watch Before Man of Tomorrow</title>
 <meta name="description" content="Fan-made tracker: every DC movie and show to watch before Man of Tomorrow (July 9, 2027) — in order, with stop points, side quests, and progress saved on your device.">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#060a14">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Road to Tomorrow">
 <style>
   :root{
     --bg:#060a14;
@@ -640,6 +648,14 @@ document.getElementById('share-btn').addEventListener('click', async function(){
 
 render();
 tick();
+
+/* Register the service worker. It is what lets Chrome offer "Install app",
+   and it keeps the tracker working when there is no connection. */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
 </script>
 </body>
 </html>
