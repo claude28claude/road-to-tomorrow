@@ -3,9 +3,19 @@
 A fan-made tracker of every DC movie and show worth watching before **Man of Tomorrow**
 (in theaters July 9, 2027).
 
-It is one self-contained HTML file. No build step, no dependencies, no server required —
-open `index.html` in any browser and it works. Offline it still works fully; only the
-poster images need an internet connection, and the layout holds without them.
+No build step and no dependencies — the page is a single HTML file, with an icon set,
+a web manifest, and a small service worker alongside it so browsers can install it as
+an app.
+
+## Installing it
+
+Open [the live site](https://claude28claude.github.io/road-to-tomorrow/) and choose
+**Install** — the icon in Chrome's address bar on desktop, or "Add to Home screen" on a
+phone. It then launches from your home screen or app list like any other app, with its
+own icon and no browser chrome around it.
+
+Once installed it works without a connection. The page is cached on first visit, and each
+poster is kept after you have seen it once.
 
 ## What it does
 
@@ -22,7 +32,19 @@ poster images need an internet connection, and the layout holds without them.
 
 ## Running it locally
 
-Just open `index.html`. Nothing to install.
+Open `index.html` directly and the tracker works. To exercise the installable-app side
+you need it served over HTTP rather than opened as a file, because browsers only run
+service workers on a real origin:
+
+```
+npx http-server . -p 8124 -c-1
+```
+
+## The icon
+
+`icons/` holds the app icons: a road running toward a sunrise, in the site's navy, blue
+and gold. Alongside the ordinary square icons there are `icon-maskable-*.png`, which keep
+the artwork inside a padded safe area so Android's circular mask doesn't clip it.
 
 ## Notes
 
