@@ -21,9 +21,12 @@ poster is kept after you have seen it once.
 
 - **Counts down** to Man of Tomorrow's premiere, live to the second.
 - **Shows the poster** for every title, so the list is scannable at a glance.
+- **Keeps a wider library below the road** — Gotham, plus every animated DC superhero
+  series and film, grouped by continuity. None of it counts toward the countdown or the
+  percentage, because none of it is homework for the film; it has its own tally.
 - **Lists 37 titles in watch order**, grouped into six parts: the Christopher Reeve era,
   the Burton/Schumacher Batman films, Nolan's Dark Knight trilogy, the DCEU, the
-  Elseworlds one-offs, and James Gunn's new DCU.
+  Elseworlds one-offs, and James Gunn's new DCU. 117 titles in total across the page.
 - **Marks what actually matters.** Each entry is tagged CORE (required homework),
   LEGACY (history, not homework), or OPTIONAL, so you can take the short road or the long one.
 - **Warns you at stop points** — places where watching in the obvious order spoils something.
