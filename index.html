@@ -173,6 +173,9 @@
   details summary:hover{color:var(--blue)}
   details[open] summary{color:var(--blue)}
   details p{font-size:14px;color:var(--ink-dim);padding:8px 12px;border-left:2px solid var(--card-edge);margin-top:4px}
+  /* Long unbroken tokens (URLs, "Clark/Superman") must not push the page sideways
+     on narrow screens. */
+  .title-line,.note,details p{overflow-wrap:anywhere}
   .details-row{display:flex;flex-wrap:wrap}
 
   /* watched state */
@@ -217,6 +220,25 @@
   .destination p{color:var(--ink-dim);max-width:560px;margin:14px auto 0;font-size:15.5px}
   .horizon{margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);line-height:2}
 
+  /* ===== Library divider ===== */
+  .library-intro{
+    margin:64px 0 8px;padding:34px 26px;text-align:center;
+    border-top:1px solid var(--card-edge);border-bottom:1px solid var(--card-edge);
+    background:linear-gradient(180deg,rgba(93,155,255,.05),transparent);
+  }
+  .library-intro h2{
+    font-family:var(--serif);font-size:clamp(26px,5vw,40px);color:#f4f6fb;line-height:1.15;margin-top:4px;
+  }
+  .library-intro p{
+    max-width:600px;margin:14px auto 0;color:var(--ink-dim);font-size:15.5px;
+  }
+  .library-count{
+    margin-top:20px;display:inline-flex;align-items:baseline;gap:10px;
+    border:1px solid var(--card-edge);border-radius:99px;padding:8px 20px;background:var(--card);
+  }
+  .library-count b{font-family:var(--serif);font-size:22px;color:var(--blue)}
+  .library-count span{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--ink-faint);text-transform:uppercase}
+
   footer{
     text-align:center;padding:30px 24px 50px;font-family:var(--mono);
     font-size:11.5px;letter-spacing:.12em;color:var(--ink-faint);
@@ -242,7 +264,7 @@
 <header class="hero">
   <div class="eyebrow">The Complete DC Watch Order</div>
   <h1><span class="white">ROAD TO</span><br><span class="glow">TOMORROW</span></h1>
-  <p class="tagline">Every DC movie and show to watch before <b>Man of Tomorrow</b> — from Christopher Reeve to the new DCU, in exact order, with stop points. Tap anything to check it off. Your progress saves on this device.</p>
+  <p class="tagline">Every DC movie and show to watch before <b>Man of Tomorrow</b> — from Christopher Reeve to the new DCU, in exact order, with stop points. Then a full library of Gotham and DC animation below. Tap anything to check it off. Your progress saves on this device.</p>
 
   <div class="countdown" id="countdown">
     <div class="tile"><b id="cd-days">–</b><span>Days</span></div>
@@ -318,7 +340,101 @@ const POSTERS = {
   pm2:'https://upload.wikimedia.org/wikipedia/en/2/24/Peacemaker_season_2_poster.jpg',
   supergirl26:'https://upload.wikimedia.org/wikipedia/en/5/58/Supergirl_%282026_film%29_poster.jpg',
   lanterns:'https://upload.wikimedia.org/wikipedia/en/1/1f/Lanterns_%28TV_series%29_logo.png',
-  clayface:'https://upload.wikimedia.org/wikipedia/en/4/4f/Clayface_%28film%29_poster.jpg'
+  clayface:'https://upload.wikimedia.org/wikipedia/en/4/4f/Clayface_%28film%29_poster.jpg',
+
+  /* --- Gotham --- */
+  gotham:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Gotham_%28DC_Entertainment_Television_series%29_logo.svg/330px-Gotham_%28DC_Entertainment_Television_series%29_logo.svg.png',
+
+  /* --- the DC Animated Universe --- */
+  batas:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Batman-_The_Animated_Series_logo.svg/1280px-Batman-_The_Animated_Series_logo.svg.png',
+  phantasm:'https://upload.wikimedia.org/wikipedia/en/e/ea/Batman_mask_of_the_phantasm_poster.jpg',
+  subzero:'https://upload.wikimedia.org/wikipedia/en/4/47/Batman_%26_Mr._Freeze_SubZero.jpg',
+  stas:'https://upload.wikimedia.org/wikipedia/en/thumb/f/fc/Superman_the_animated_series_logo.svg/960px-Superman_the_animated_series_logo.svg.png',
+  tnba:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/The_New_Batman_Adventures_%28logo%29.svg/1280px-The_New_Batman_Adventures_%28logo%29.svg.png',
+  batwoman03:'https://upload.wikimedia.org/wikipedia/en/7/7f/Batman-Mystery_of_the_Batwoman_poster.jpg',
+  beyond:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Batman_Beyond_%28logo%29.svg/960px-Batman_Beyond_%28logo%29.svg.png',
+  returnjoker:'https://upload.wikimedia.org/wikipedia/en/f/fd/Batman_Beyond_-_Return_of_the_Joker_poster.jpg',
+  static:'https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Static_Shock_%28DC_Comics_animated_series%29_logo.svg/500px-Static_Shock_%28DC_Comics_animated_series%29_logo.svg.png',
+  jl01:'https://upload.wikimedia.org/wikipedia/en/6/6a/Justice_League_%28TV_series_logo%29.png',
+  jlu:'https://upload.wikimedia.org/wikipedia/en/1/1e/Justice_League_Unlimited_logo.png',
+  zeta:'https://upload.wikimedia.org/wikipedia/en/9/90/The_Zeta_Project_%28logo%29.png',
+
+  /* --- animated series outside the DCAU --- */
+  superfriends:'https://upload.wikimedia.org/wikipedia/en/c/c0/Super_Friends.jpg',
+  teentitans03:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Teen_Titans.svg/960px-Teen_Titans.svg.png',
+  titanstokyo:'https://upload.wikimedia.org/wikipedia/en/3/39/Trouble_in_Tokyo.jpg',
+  thebatman04:'https://upload.wikimedia.org/wikipedia/en/b/b6/The_Batman_%28TV_series%29_logo.png',
+  legion06:'https://upload.wikimedia.org/wikipedia/en/6/66/Legion_of_Super_Heroes_%28TV_series%29.png',
+  brave08:'https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Batman_The_Brave_and_the_Bold_logo.svg/960px-Batman_The_Brave_and_the_Bold_logo.svg.png',
+  youngjustice:'https://upload.wikimedia.org/wikipedia/commons/3/3d/Young_Justice_title.png',
+  gltas:'https://upload.wikimedia.org/wikipedia/en/8/8e/Green-Lantern-The-Animated-Series.jpg',
+  bewarebatman:'https://upload.wikimedia.org/wikipedia/en/5/51/Beware_The_Batman.jpg',
+  ttgo:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Teen_Titans_Go%21_horizontal_logo.svg/330px-Teen_Titans_Go%21_horizontal_logo.svg.png',
+  jlaction:'https://upload.wikimedia.org/wikipedia/en/8/82/JusticeLeagueAction.png',
+  harley:'https://upload.wikimedia.org/wikipedia/en/c/c3/Harley_Quinn_Title_Card.jpg',
+  mawsuperman:'https://upload.wikimedia.org/wikipedia/en/6/62/My_Adventures_with_Superman_%282023%29.png',
+  caped:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Batman-Caped_Crusader_animated_series_logo.svg/500px-Batman-Caped_Crusader_animated_series_logo.svg.png',
+  kiteman:'https://upload.wikimedia.org/wikipedia/en/5/58/Kite_Man_Hell_Yeah_title_card.png',
+  dcshg:'https://upload.wikimedia.org/wikipedia/commons/a/ac/DC_Super_Hero_Girls_logo.png',
+
+  /* --- standalone animated films --- */
+  doomsday07:'https://upload.wikimedia.org/wikipedia/en/c/c5/Superman_Doomsday_logo.JPG',
+  newfrontier:'https://upload.wikimedia.org/wikipedia/en/3/3f/Newfrontier2.jpg',
+  gothamknight:'https://upload.wikimedia.org/wikipedia/en/f/f0/Batman_Gotham_Knight.jpg',
+  ww09:'https://upload.wikimedia.org/wikipedia/en/a/a9/Ww_film_2009_bluray.jpg',
+  glfirstflight:'https://upload.wikimedia.org/wikipedia/en/4/48/GL_First_Flight.jpg',
+  publicenemies:'https://upload.wikimedia.org/wikipedia/en/9/9f/Sup_bat_public_enemies_dvd.jpg',
+  crisis2earths:'https://upload.wikimedia.org/wikipedia/en/4/41/Justice_League-Crisis_On_Two_Earths.jpg',
+  redhood:'https://upload.wikimedia.org/wikipedia/en/4/4c/Batman_under_the_red_hood_poster.jpg',
+  sbapocalypse:'https://upload.wikimedia.org/wikipedia/en/f/f2/SBApocalypse.jpg',
+  allstar:'https://upload.wikimedia.org/wikipedia/en/b/bc/AllStarSuperman.jpg',
+  emeraldknights:'https://upload.wikimedia.org/wikipedia/en/c/ce/GreenLantern-Emerald-Knights.jpg',
+  yearone:'https://upload.wikimedia.org/wikipedia/en/8/8b/Bat_year_one_film.jpg',
+  jldoom:'https://upload.wikimedia.org/wikipedia/en/d/d4/Jla_doom_2012.jpg',
+  supervselite:'https://upload.wikimedia.org/wikipedia/en/3/33/SupermanvsElite_coverart_2012.jpg',
+  dkreturns:'https://upload.wikimedia.org/wikipedia/en/e/e9/Batman_The_Dark_Knight_Returns_%28film%29.jpg',
+  unbound:'https://upload.wikimedia.org/wikipedia/en/3/34/Superman_Unbound.jpg',
+  godsmonsters:'https://upload.wikimedia.org/wikipedia/en/3/35/Justice_League_Gods_vs._Monsters_Bluray_Cover.jpg',
+  killingjoke:'https://upload.wikimedia.org/wikipedia/en/1/11/Batman-The_Killing_Joke_%28film%29.jpg',
+  batharley:'https://upload.wikimedia.org/wikipedia/en/b/b9/Batman_and_Harley_Quinn_movie_poster.jpeg',
+  gaslight:'https://upload.wikimedia.org/wikipedia/en/c/cf/Gotham_gaslight_blueray.jpg',
+  batninja:'https://upload.wikimedia.org/wikipedia/en/9/91/Batman-ninja---blu-ray-cover-1518549457339_1280w.jpg',
+  ttgomovie:'https://upload.wikimedia.org/wikipedia/en/c/ca/TTG_Movie_Poster_5.jpg',
+  redson:'https://upload.wikimedia.org/wikipedia/en/d/de/Superman_Red_Son_Blu-Ray_Cover.jpeg',
+  deathfamily:'https://upload.wikimedia.org/wikipedia/en/2/2d/Batman_Death_in_the_Family.jpg',
+  souldragon:'https://upload.wikimedia.org/wikipedia/en/e/e7/Batman_Soul_of_the_Dragon_film_Blu-ray.jpg',
+  injustice21:'https://upload.wikimedia.org/wikipedia/en/7/71/Injustice_%282021_film%29.jpg',
+  catwomanhunted:'https://upload.wikimedia.org/wikipedia/en/2/2b/Catwoman_Hunted_BD_cover.jpg',
+  supersons:'https://upload.wikimedia.org/wikipedia/en/c/c1/Batman_and_Superman_Battle_of_the_Super_Sons_poster.jpg',
+  merrylittle:'https://upload.wikimedia.org/wikipedia/en/1/16/Merry_Little_Batman_poster.jpg',
+  watchmen:'https://upload.wikimedia.org/wikipedia/en/1/15/Watchmen_Chapter_1_poster.jpg',
+
+  /* --- the DC Animated Movie Universe --- */
+  flashpoint:'https://upload.wikimedia.org/wikipedia/en/d/d5/Justice_League_-_The_Flashpoint_Paradox.jpg',
+  jlwar:'https://upload.wikimedia.org/wikipedia/en/f/f4/Justice_League-War.jpg',
+  sonofbatman:'https://upload.wikimedia.org/wikipedia/en/2/21/Son_of_Batman_cover.jpg',
+  assaultarkham:'https://upload.wikimedia.org/wikipedia/en/c/c0/Batman_Assault_on_Arkham_cover.jpeg',
+  throneatlantis:'https://upload.wikimedia.org/wikipedia/en/9/9e/Justice_League_-_Throne_of_Atlantis.jpg',
+  batvsrobin:'https://upload.wikimedia.org/wikipedia/en/0/00/Bat_vs_robin_cover.jpg',
+  badblood:'https://upload.wikimedia.org/wikipedia/en/d/df/Batman_Bad_Blood_cover.jpeg',
+  jlvstt:'https://upload.wikimedia.org/wikipedia/en/2/29/Justice_League_vs._Teen_Titans.jpg',
+  judas:'https://upload.wikimedia.org/wikipedia/en/4/4f/Teen_Titans_The_Judas_Contract.jpg',
+  jldark:'https://upload.wikimedia.org/wikipedia/en/9/9a/Justice_League_Dark_film_Blu-ray.jpg',
+  helltopay:'https://upload.wikimedia.org/wikipedia/en/8/8c/Hell_to_pay_dvd.jpg',
+  deathsuperman:'https://upload.wikimedia.org/wikipedia/en/7/72/The_Death_of_Superman_Bluray_cover.jpg',
+  reign:'https://upload.wikimedia.org/wikipedia/en/5/59/ROTS-Box-Art-2D-BD.jpeg',
+  hush:'https://upload.wikimedia.org/wikipedia/en/e/e0/Batman_Hush_4K_Ultra_HD_Blu-ray_cover.jpeg',
+  bloodlines:'https://upload.wikimedia.org/wikipedia/en/c/c4/Wonder-woman-bloodlines-4k.jpeg',
+  apokolipswar:'https://upload.wikimedia.org/wikipedia/en/2/21/Justice_League_Dark_Apokolips_War_dvd_cover.jpg',
+
+  /* --- the Tomorrowverse --- */
+  manoftomorrow20:'https://upload.wikimedia.org/wikipedia/en/1/1d/Superman-man-of-tomorrow-4k.jpg',
+  jsww2:'https://upload.wikimedia.org/wikipedia/en/c/c0/Justice_Society_World_War_II_Film_poster.png',
+  longhalloween:'https://upload.wikimedia.org/wikipedia/en/5/52/Batman_thelonghalloween.jpg',
+  bewaremypower:'https://upload.wikimedia.org/wikipedia/en/4/41/Green_Lantern-_Beware_My_Power.jpeg',
+  legion23:'https://upload.wikimedia.org/wikipedia/en/d/d5/Legion_of_Super-Heroes_%28film%29.jpg',
+  warworld:'https://upload.wikimedia.org/wikipedia/en/e/eb/Justice_League_Warworld_poster.jpg',
+  coie:'https://upload.wikimedia.org/wikipedia/en/8/81/Justice_League_Crisis_on_Infinite_Earths_trilogy_poster.jpg'
 };
 
 /* ================= DATA ================= */
@@ -463,6 +579,223 @@ const PARTS = [
       note:'Confirmed in development for after Man of Tomorrow: Dynamic Duo (animated, 2028), The Brave and the Bold (Batman &amp; Damian), Paradise Lost, Booster Gold, Sgt. Rock, Wonder Woman, and a Teen Titans film. The road doesn’t end at Tomorrow.'},
   ]
 },
+
+/* ============================================================
+   Everything below is the wider library, not homework for Man of
+   Tomorrow. Parts flagged `bonus` are kept out of the countdown and
+   the completion figures so the road above stays honest.
+   ============================================================ */
+{
+  roman:'VII', bonus:true, title:'Gotham', sub:'The city before the Batman — its own continuity, five seasons', entries:[
+    {type:'item', id:'gotham', title:'Gotham', meta:'2014–19 (5 seasons, 100 eps)', rt:79, mins:4300, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Jim Gordon’s first years as a detective in a Gotham that has no Batman yet, while a young Bruce Wayne slowly grows into the cowl. It ends where most Batman stories begin.',
+      watchFor:'Every rogue getting an origin at once — a young Penguin, Riddler, and Poison Ivy — with Robin Lord Taylor’s Oswald Cobblepot as the standout.',
+      tiesIn:'It connects to nothing else on this list. A self-contained five-season prequel, and the only live-action DC series outside the film continuities here.'},
+  ]
+},
+{
+  roman:'VIII', bonus:true, title:'The DC Animated Universe', sub:'Bruce Timm’s shared world, 1992–2006 — for many people, still the definitive DC',
+  entries:[
+    {type:'item', id:'batas', title:'Batman: The Animated Series', meta:'1992–95 (85 eps)', rt:100, mins:1870, badge:'CORE', earth:'DCAU',
+      note:'The show that defined Batman for a generation, and the one that invented Harley Quinn.',
+      watchFor:'"Heart of Ice", the episode that rewrote Mr. Freeze from a joke into a tragedy and won an Emmy for it.',
+      tiesIn:'The foundation of everything else in this part.'},
+    {type:'item', id:'phantasm', title:'Batman: Mask of the Phantasm', meta:'1993 (1 hr 16 min)', rt:86, mins:76, badge:'CORE', earth:'DCAU',
+      note:'The DCAU’s first film, and still the best Batman film that animation has produced.'},
+    {type:'item', id:'subzero', title:'Batman & Mr. Freeze: SubZero', meta:'1998 (1 hr 7 min)', rt:0, mins:67, badge:'OPTIONAL', earth:'DCAU',
+      note:'A direct sequel to "Heart of Ice". Slight, but it finishes Freeze’s story.'},
+    {type:'item', id:'stas', title:'Superman: The Animated Series', meta:'1996–2000 (54 eps)', rt:100, mins:1188, badge:'CORE', earth:'DCAU',
+      note:'The same team’s Superman. It builds the Apokolips half of the universe that Justice League later depends on.'},
+    {type:'item', id:'tnba', title:'The New Batman Adventures', meta:'1997–99 (24 eps)', rt:0, mins:528, badge:'OPTIONAL', earth:'DCAU',
+      note:'Batman redesigned and folded into Superman’s world, with Nightwing, Tim Drake and Batgirl promoted.'},
+    {type:'item', id:'batwoman03', title:'Batman: Mystery of the Batwoman', meta:'2003 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'DCAU',
+      note:'The last film of the classic era. A whodunnit, and lighter than the rest.'},
+    {type:'item', id:'beyond', title:'Batman Beyond', meta:'1999–2001 (52 eps)', rt:100, mins:1144, badge:'CORE', earth:'DCAU',
+      note:'Fifty years on, an old Bruce Wayne trains Terry McGinnis to wear the suit. Far better than its premise sounds.',
+      watchFor:'Kevin Conroy playing Bruce as a bitter old man — the best work he ever did with the character.',
+      tiesIn:'Justice League Unlimited later returns to this future and gives the show its real ending.'},
+    {type:'item', id:'returnjoker', title:'Batman Beyond: Return of the Joker', meta:'2000 (1 hr 17 min)', rt:0, mins:77, badge:'CORE', earth:'DCAU',
+      note:'Watch the uncut version. Genuinely dark, and the emotional peak of the whole DCAU.'},
+    {type:'item', id:'static', title:'Static Shock', meta:'2000–04 (52 eps)', rt:0, mins:1144, badge:'OPTIONAL', earth:'DCAU',
+      note:'Virgil Hawkins joins the universe. Crosses over with Batman, Superman and Batman Beyond.'},
+    {type:'item', id:'jl01', title:'Justice League', meta:'2001–04 (52 eps)', rt:100, mins:1144, badge:'CORE', earth:'DCAU',
+      note:'Seven heroes, told in two-part stories. The DCAU stops being Batman’s world and becomes everyone’s.'},
+    {type:'item', id:'jlu', title:'Justice League Unlimited', meta:'2004–06 (39 eps)', rt:100, mins:858, badge:'CORE', earth:'DCAU',
+      note:'The roster opens to dozens of heroes and the writing gets sharper. The high-water mark of DC on television.',
+      watchFor:'The Cadmus arc, and "Epilogue" — which is really the last episode of Batman Beyond.',
+      tiesIn:'Closes out fourteen years of continuity in one go.'},
+    {type:'stop', id:'stop-epilogue', text:'WATCH IT LAST — JLU’s episode "Epilogue" is the true ending of Batman Beyond, which is why Beyond comes before it here. Save it for the very end of this part.'},
+    {type:'side', id:'sq-zeta', letter:'F', title:'Side quest: The Zeta Project', meta:'2001–02 (26 eps)', earth:'DCAU',
+      note:'A Batman Beyond spin-off about a runaway assassin robot. Peripheral, but it is DCAU canon.'},
+  ]
+},
+{
+  roman:'IX', bonus:true, title:'The Animated Series Library', sub:'Everything outside the DCAU — each one its own continuity',
+  entries:[
+    {type:'item', id:'superfriends', title:'Super Friends', meta:'1973–86 (multiple runs)', rt:0, mins:0, badge:'OPTIONAL', earth:'CLASSIC',
+      note:'Where the Justice League first reached television. Dated, gentle, and historically important. Dip in anywhere.'},
+    {type:'item', id:'teentitans03', title:'Teen Titans', meta:'2003–06 (65 eps)', rt:100, mins:1430, badge:'CORE', earth:'OWN CANON',
+      note:'Anime-inflected, funnier and sadder than expected. The Terra arc still lands.'},
+    {type:'item', id:'titanstokyo', title:'Teen Titans: Trouble in Tokyo', meta:'2006 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'The film finale of the 2003 series. Watch it straight after the show.'},
+    {type:'item', id:'thebatman04', title:'The Batman', meta:'2004–08 (65 eps)', rt:0, mins:1430, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'A younger Bruce with a stylised look. Finds its feet once the Justice League turns up in later seasons.'},
+    {type:'item', id:'legion06', title:'Legion of Super Heroes', meta:'2006–08 (26 eps)', rt:0, mins:572, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'A teenage Superman pulled into the 31st century.'},
+    {type:'item', id:'brave08', title:'Batman: The Brave and the Bold', meta:'2008–11 (65 eps)', rt:0, mins:1430, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Deliberately bright and silly, teaming Batman with DC’s deepest cuts. The antidote to grimdark.'},
+    {type:'item', id:'youngjustice', title:'Young Justice', meta:'2010–22 (4 seasons, 98 eps)', rt:92, mins:2156, badge:'CORE', earth:'EARTH-16',
+      note:'Sidekicks running covert missions, told with real serialisation and a huge cast. Many people’s favourite DC show full stop.',
+      watchFor:'The five-year time jump between seasons one and two — a bold move that pays off.',
+      tiesIn:'Self-contained across four seasons, so no other homework needed.'},
+    {type:'item', id:'gltas', title:'Green Lantern: The Animated Series', meta:'2011–13 (26 eps)', rt:0, mins:572, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Hal Jordan in deep space, in CG. Cancelled far too early on a cliffhanger.'},
+    {type:'item', id:'bewarebatman', title:'Beware the Batman', meta:'2013–14 (26 eps)', rt:0, mins:572, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'An early Batman with Katana as his partner and unusual villains. Buried by scheduling.'},
+    {type:'item', id:'ttgo', title:'Teen Titans Go!', meta:'2013–present', rt:0, mins:0, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Loud, silly, enormously popular, and hated by fans of the 2003 show. Hundreds of short episodes — no order needed.'},
+    {type:'item', id:'jlaction', title:'Justice League Action', meta:'2016–18 (52 eps)', rt:0, mins:572, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Eleven-minute stories with Kevin Conroy back as Batman. Snack-sized and better than it had to be.'},
+    {type:'item', id:'harley', title:'Harley Quinn', meta:'2019–present (5 seasons)', rt:93, mins:1000, badge:'CORE', earth:'OWN CANON',
+      note:'Adult, foul-mouthed, and the best-written DC comedy there is. The Harley and Ivy relationship is the whole point.'},
+    {type:'item', id:'kiteman', title:'Kite Man: Hell Yeah!', meta:'2024 (10 eps)', rt:0, mins:220, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'A Harley Quinn spin-off about DC’s most hopeless villain running a bar. Watch Harley first.'},
+    {type:'item', id:'mawsuperman', title:'My Adventures with Superman', meta:'2023–present', rt:100, mins:460, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'A warm, anime-styled young Clark, Lois and Jimmy. The friendliest entry point on this whole page.'},
+    {type:'item', id:'caped', title:'Batman: Caped Crusader', meta:'2024–present', rt:93, mins:250, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Bruce Timm returns with a 1940s noir Batman. The closest thing to a true successor to the animated series.'},
+    {type:'side', id:'sq-allages', letter:'G', title:'Side quest: the all-ages shelf', meta:'DC Super Hero Girls · Krypto the Superdog · Batwheels',
+      note:'Made for younger viewers and unconnected to anything else. DC Super Hero Girls in particular is sharper than it needs to be.'},
+  ]
+},
+{
+  roman:'X', bonus:true, title:'The Standalone Animated Films', sub:'Each one its own story — no continuity, no order required',
+  entries:[
+    {type:'item', id:'doomsday07', title:'Superman: Doomsday', meta:'2007 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'The first of the direct-to-video line. A compressed take on the Death of Superman.'},
+    {type:'item', id:'newfrontier', title:'Justice League: The New Frontier', meta:'2008 (1 hr 15 min)', rt:0, mins:75, badge:'CORE', earth:'STANDALONE',
+      note:'Darwyn Cooke’s 1950s origin of the League. Gorgeous, and one of the best in the entire line.'},
+    {type:'item', id:'gothamknight', title:'Batman: Gotham Knight', meta:'2008 (1 hr 16 min)', rt:0, mins:76, badge:'OPTIONAL', earth:'NOLANVERSE-ISH',
+      note:'Six anime shorts set loosely between Batman Begins and The Dark Knight.'},
+    {type:'item', id:'ww09', title:'Wonder Woman', meta:'2009 (1 hr 14 min)', rt:0, mins:74, badge:'CORE', earth:'STANDALONE',
+      note:'Diana’s origin done properly, years before the live-action film. Still the best animated Wonder Woman.'},
+    {type:'item', id:'glfirstflight', title:'Green Lantern: First Flight', meta:'2009 (1 hr 17 min)', rt:0, mins:77, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'Hal Jordan’s origin played as a space cop thriller.'},
+    {type:'item', id:'publicenemies', title:'Superman/Batman: Public Enemies', meta:'2009 (1 hr 7 min)', rt:0, mins:67, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'President Lex Luthor puts a bounty on Superman. Loud and fun.'},
+    {type:'item', id:'crisis2earths', title:'Justice League: Crisis on Two Earths', meta:'2010 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'The League versus their evil counterparts. Owlman gets the best ending in any of these films.'},
+    {type:'item', id:'redhood', title:'Batman: Under the Red Hood', meta:'2010 (1 hr 15 min)', rt:0, mins:75, badge:'CORE', earth:'STANDALONE',
+      note:'Widely held to be the best animated DC film ever made. Jason Todd comes back, and Batman has to answer for him.'},
+    {type:'item', id:'sbapocalypse', title:'Superman/Batman: Apocalypse', meta:'2010 (1 hr 18 min)', rt:0, mins:78, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'Introduces Supergirl, with Darkseid after her.'},
+    {type:'item', id:'allstar', title:'All-Star Superman', meta:'2011 (1 hr 16 min)', rt:0, mins:76, badge:'CORE', earth:'STANDALONE',
+      note:'A dying Superman’s last acts of kindness, from Grant Morrison’s comic. The warmest film on this page.'},
+    {type:'item', id:'emeraldknights', title:'Green Lantern: Emerald Knights', meta:'2011 (1 hr 24 min)', rt:0, mins:84, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'An anthology of Corps legends.'},
+    {type:'item', id:'yearone', title:'Batman: Year One', meta:'2011 (1 hr 4 min)', rt:0, mins:64, badge:'CORE', earth:'STANDALONE',
+      note:'An almost panel-for-panel adaptation of Frank Miller’s origin. Gordon is the real lead.'},
+    {type:'item', id:'jldoom', title:'Justice League: Doom', meta:'2012 (1 hr 17 min)', rt:0, mins:77, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'Batman’s contingency plans for beating his own team get stolen. The last script Dwayne McDuffie wrote.'},
+    {type:'item', id:'supervselite', title:'Superman vs. The Elite', meta:'2012 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'Superman argues the case for not killing, against heroes who do. Sharper than expected.'},
+    {type:'item', id:'dkreturns', title:'Batman: The Dark Knight Returns, Parts One &amp; Two', meta:'2012–13 (2 hr 32 min total)', rt:0, mins:152, badge:'CORE', earth:'STANDALONE',
+      note:'An old Batman comes out of retirement. Faithful to Miller’s comic, and the two parts are really one film.'},
+    {type:'item', id:'unbound', title:'Superman: Unbound', meta:'2013 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'Brainiac done well — worth a look before Man of Tomorrow, which uses him too.'},
+    {type:'item', id:'godsmonsters', title:'Justice League: Gods and Monsters', meta:'2015 (1 hr 16 min)', rt:0, mins:76, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'A Bruce Timm what-if with a harsher League. Vampire Batman, Zod’s son as Superman.'},
+    {type:'item', id:'killingjoke', title:'Batman: The Killing Joke', meta:'2016 (1 hr 16 min)', rt:38, mins:76, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'A faithful second half attached to an invented first half that most viewers dislike. Be warned.'},
+    {type:'item', id:'batharley', title:'Batman and Harley Quinn', meta:'2017 (1 hr 14 min)', rt:0, mins:74, badge:'OPTIONAL', earth:'DCAU-STYLE',
+      note:'Drawn like the animated series, but pitched as a comedy for adults.'},
+    {type:'item', id:'gaslight', title:'Batman: Gotham by Gaslight', meta:'2018 (1 hr 18 min)', rt:0, mins:78, badge:'OPTIONAL', earth:'ELSEWORLDS',
+      note:'Victorian Batman hunting Jack the Ripper. The original DC Elseworlds story.'},
+    {type:'item', id:'batninja', title:'Batman Ninja', meta:'2018 (1 hr 25 min)', rt:0, mins:85, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'Batman and his rogues thrown into feudal Japan, in wild Japanese animation. Watch it in Japanese.'},
+    {type:'item', id:'ttgomovie', title:'Teen Titans Go! To the Movies', meta:'2018 (1 hr 24 min)', rt:91, mins:84, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'A genuinely funny parody of the whole superhero-film business.'},
+    {type:'item', id:'redson', title:'Superman: Red Son', meta:'2020 (1 hr 24 min)', rt:0, mins:84, badge:'OPTIONAL', earth:'ELSEWORLDS',
+      note:'The rocket lands in Soviet Ukraine instead of Kansas.'},
+    {type:'item', id:'deathfamily', title:'Batman: Death in the Family', meta:'2020 (31 min)', rt:0, mins:31, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'An interactive short where you choose whether Jason Todd lives.'},
+    {type:'item', id:'souldragon', title:'Batman: Soul of the Dragon', meta:'2021 (1 hr 23 min)', rt:0, mins:83, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'A 1970s martial-arts Batman with Richard Dragon and Lady Shiva. A great change of pace.'},
+    {type:'item', id:'injustice21', title:'Injustice', meta:'2021 (1 hr 18 min)', rt:0, mins:78, badge:'OPTIONAL', earth:'ELSEWORLDS',
+      note:'From the video game: the Joker breaks Superman, and Superman becomes a tyrant.'},
+    {type:'item', id:'catwomanhunted', title:'Catwoman: Hunted', meta:'2022 (1 hr 17 min)', rt:0, mins:77, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'A stylish anime-styled heist with Selina and Batwoman.'},
+    {type:'item', id:'supersons', title:'Batman and Superman: Battle of the Super Sons', meta:'2022 (1 hr 22 min)', rt:0, mins:82, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'Jon Kent and Damian Wayne, in CG. Aimed younger.'},
+    {type:'item', id:'merrylittle', title:'Merry Little Batman', meta:'2023 (1 hr 37 min)', rt:88, mins:97, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'Damian defends Wayne Manor at Christmas. A charming Home Alone riff with lovely artwork.'},
+    {type:'item', id:'watchmen', title:'Watchmen: Chapters I &amp; II', meta:'2024 (3 hr 5 min total)', rt:0, mins:185, badge:'OPTIONAL', earth:'STANDALONE',
+      note:'A faithful two-part animated adaptation of the comic. Adult, and closer to the page than the 2009 film.'},
+  ]
+},
+{
+  roman:'XI', bonus:true, title:'The DC Animated Movie Universe', sub:'2013–2020 — sixteen films telling one continuous story, in this order',
+  entries:[
+    {type:'item', id:'flashpoint', title:'Justice League: The Flashpoint Paradox', meta:'2013 (1 hr 21 min)', rt:0, mins:81, badge:'CORE', earth:'DCAMU',
+      note:'The Flash rewrites history and creates this universe. Start here — nothing after it makes sense otherwise.',
+      watchFor:'A brutal alternate timeline where Thomas Wayne is Batman.',
+      tiesIn:'Every film below follows directly from this one.'},
+    {type:'item', id:'jlwar', title:'Justice League: War', meta:'2014 (1 hr 19 min)', rt:0, mins:79, badge:'CORE', earth:'DCAMU',
+      note:'The team forms against Darkseid.'},
+    {type:'item', id:'sonofbatman', title:'Son of Batman', meta:'2014 (1 hr 14 min)', rt:0, mins:74, badge:'CORE', earth:'DCAMU',
+      note:'Damian Wayne arrives and becomes Robin. He is the spine of this whole continuity.'},
+    {type:'item', id:'assaultarkham', title:'Batman: Assault on Arkham', meta:'2014 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'DCAMU',
+      note:'A Suicide Squad heist that is really the best Squad film anyone has made.'},
+    {type:'item', id:'throneatlantis', title:'Justice League: Throne of Atlantis', meta:'2015 (1 hr 12 min)', rt:0, mins:72, badge:'CORE', earth:'DCAMU',
+      note:'Aquaman joins.'},
+    {type:'item', id:'batvsrobin', title:'Batman vs. Robin', meta:'2015 (1 hr 20 min)', rt:0, mins:80, badge:'CORE', earth:'DCAMU',
+      note:'Damian is pulled toward the Court of Owls.'},
+    {type:'item', id:'badblood', title:'Batman: Bad Blood', meta:'2016 (1 hr 12 min)', rt:0, mins:72, badge:'CORE', earth:'DCAMU',
+      note:'Bruce vanishes and the wider Bat-family steps up. Batwoman debuts.'},
+    {type:'item', id:'jlvstt', title:'Justice League vs. Teen Titans', meta:'2016 (1 hr 19 min)', rt:0, mins:79, badge:'CORE', earth:'DCAMU',
+      note:'Damian joins the Titans; Raven’s father comes calling.'},
+    {type:'item', id:'judas', title:'Teen Titans: The Judas Contract', meta:'2017 (1 hr 24 min)', rt:0, mins:84, badge:'CORE', earth:'DCAMU',
+      note:'Terra and Deathstroke, adapted at last after decades.'},
+    {type:'item', id:'jldark', title:'Justice League Dark', meta:'2017 (1 hr 15 min)', rt:0, mins:75, badge:'CORE', earth:'DCAMU',
+      note:'Constantine, Zatanna and Deadman take the occult cases. Sets up the finale.'},
+    {type:'item', id:'helltopay', title:'Suicide Squad: Hell to Pay', meta:'2018 (1 hr 26 min)', rt:0, mins:86, badge:'OPTIONAL', earth:'DCAMU',
+      note:'Harsh, adult, and one of the better Squad stories.'},
+    {type:'item', id:'deathsuperman', title:'The Death of Superman', meta:'2018 (1 hr 21 min)', rt:0, mins:81, badge:'CORE', earth:'DCAMU',
+      note:'The proper adaptation the 2007 film never managed. Doomsday arrives.'},
+    {type:'item', id:'reign', title:'Reign of the Supermen', meta:'2019 (1 hr 27 min)', rt:0, mins:87, badge:'CORE', earth:'DCAMU',
+      note:'Four claimants to the cape while Superman is gone. Direct sequel — watch straight after.'},
+    {type:'item', id:'hush', title:'Batman: Hush', meta:'2019 (1 hr 21 min)', rt:0, mins:81, badge:'OPTIONAL', earth:'DCAMU',
+      note:'The Jeph Loeb mystery, with the culprit changed. Divisive for that reason.'},
+    {type:'item', id:'bloodlines', title:'Wonder Woman: Bloodlines', meta:'2019 (1 hr 23 min)', rt:0, mins:83, badge:'OPTIONAL', earth:'DCAMU',
+      note:'Diana’s solo outing in this continuity.'},
+    {type:'item', id:'apokolipswar', title:'Justice League Dark: Apokolips War', meta:'2020 (1 hr 30 min)', rt:0, mins:90, badge:'CORE', earth:'DCAMU',
+      note:'<strong>The finale, and it is merciless.</strong> Darkseid has already won when it opens. It ends this universe for good.',
+      watchFor:'A genuinely shocking body count — this one does not pull its punches.',
+      tiesIn:'The last DCAMU film. Everything above builds to it, and nothing follows.'},
+    {type:'stop', id:'stop-dcamu', text:'ORDER MATTERS HERE — Unlike the standalone films above, these sixteen are one story. Start at Flashpoint Paradox and finish at Apokolips War, or the ending loses its weight.'},
+  ]
+},
+{
+  roman:'XII', bonus:true, title:'The Tomorrowverse', sub:'2020–2024 — the continuity that replaced the DCAMU, ending in Crisis',
+  entries:[
+    {type:'item', id:'manoftomorrow20', title:'Superman: Man of Tomorrow', meta:'2020 (1 hr 26 min)', rt:0, mins:86, badge:'CORE', earth:'TOMORROWVERSE',
+      note:'A young Clark in his first weeks on the job. Shares a title with the 2027 film, but is unrelated to it.'},
+    {type:'item', id:'jsww2', title:'Justice Society: World War II', meta:'2021 (1 hr 24 min)', rt:0, mins:84, badge:'CORE', earth:'TOMORROWVERSE',
+      note:'The Flash slips back to 1945 and finds the JSA mid-war.'},
+    {type:'item', id:'longhalloween', title:'Batman: The Long Halloween, Parts One &amp; Two', meta:'2021 (2 hr 55 min total)', rt:0, mins:175, badge:'CORE', earth:'TOMORROWVERSE',
+      note:'The Loeb and Sale murder mystery across a year of holidays. The best thing in this continuity.'},
+    {type:'item', id:'bewaremypower', title:'Green Lantern: Beware My Power', meta:'2022 (1 hr 30 min)', rt:0, mins:90, badge:'CORE', earth:'TOMORROWVERSE',
+      note:'John Stewart takes the ring — useful background if you enjoyed Lanterns.'},
+    {type:'item', id:'legion23', title:'Legion of Super-Heroes', meta:'2023 (1 hr 21 min)', rt:0, mins:81, badge:'CORE', earth:'TOMORROWVERSE',
+      note:'Supergirl is sent to the future to learn how to be a hero.'},
+    {type:'item', id:'warworld', title:'Justice League: Warworld', meta:'2023 (1 hr 30 min)', rt:0, mins:90, badge:'CORE', earth:'TOMORROWVERSE',
+      note:'Three genre pastiches that turn out to be one story. Odd, and rather good.'},
+    {type:'item', id:'coie', title:'Justice League: Crisis on Infinite Earths, Parts One–Three', meta:'2024 (4 hr 15 min total)', rt:0, mins:255, badge:'CORE', earth:'TOMORROWVERSE',
+      note:'<strong>The finale.</strong> The Anti-Monitor unmakes the multiverse, and characters from every animated era above turn up to fight it. A send-off for seventeen years of these films.',
+      watchFor:'Cameos pulled from across the entire animated back catalogue — the reward for having watched the rest of this library.',
+      tiesIn:'Closes the Tomorrowverse, and with it the long run of DC animated films that began in 2007.'},
+  ]
+},
 ];
 
 const DEST = {
@@ -481,15 +814,50 @@ try { watched = new Set(JSON.parse(localStorage.getItem(STORE_KEY) || '[]')); } 
 function save(){ localStorage.setItem(STORE_KEY, JSON.stringify([...watched])); }
 
 /* ================= RENDER ================= */
+/* The road to Man of Tomorrow drives the countdown, the percentage and the
+   hours figure. The bonus library is tracked separately so adding eighty
+   animated titles doesn't distort what "watch before the film" means. */
 const allItems = [];
-PARTS.forEach(p => p.entries.forEach(e => { if(e.type==='item') allItems.push(e); }));
+const bonusItems = [];
+PARTS.forEach(p => p.entries.forEach(e => {
+  if(e.type === 'item') (p.bonus ? bonusItems : allItems).push(e);
+}));
+
+function destinationHtml(){
+  return `<div class="destination">
+    <div class="eyebrow">The Destination</div>
+    <h2><em>${DEST.title}</em></h2>
+    <p><b>In theaters ${DEST.date}.</b> ${DEST.blurb}</p>
+    <div class="horizon">CHAPTER ONE CONTINUES: DYNAMIC DUO · THE BRAVE AND THE BOLD · PARADISE LOST · BOOSTER GOLD · SGT. ROCK · WONDER WOMAN</div>
+  </div>`;
+}
+
+function libraryIntroHtml(){
+  return `<div class="library-intro">
+    <div class="eyebrow">Beyond the Road</div>
+    <h2>The Wider DC Library</h2>
+    <p>Gotham, and every animated DC superhero project worth your time — the Timm-era
+    classics, the series, and all the films. None of it is homework for Man of Tomorrow,
+    so none of it counts toward the countdown or the percentage above. It has its own
+    tally instead.</p>
+    <div class="library-count"><b id="bonus-count">0/0</b> <span>watched in the library</span></div>
+  </div>`;
+}
 
 let stepNo = 0;
 function render(){
   const root = document.getElementById('roadmap');
   let html = '';
   stepNo = 0;
+  let roadClosed = false;
   PARTS.forEach((part, pi) => {
+    /* The destination card belongs at the end of the road, not the end of the
+       page — the library sits below it. */
+    if(part.bonus && !roadClosed){
+      html += destinationHtml() + libraryIntroHtml();
+      roadClosed = true;
+      stepNo = 0;
+    }
     const items = part.entries.filter(e => e.type==='item');
     html += `<section class="part" id="part-${pi}">
       <div class="part-head">
@@ -539,12 +907,7 @@ function render(){
     html += `</section>`;
   });
 
-  html += `<div class="destination">
-    <div class="eyebrow">The Destination</div>
-    <h2><em>${DEST.title}</em></h2>
-    <p><b>In theaters ${DEST.date}.</b> ${DEST.blurb}</p>
-    <div class="horizon">CHAPTER ONE CONTINUES: DYNAMIC DUO · THE BRAVE AND THE BOLD · PARADISE LOST · BOOSTER GOLD · SGT. ROCK · WONDER WOMAN</div>
-  </div>`;
+  if(!roadClosed) html += destinationHtml();
 
   root.innerHTML = html;
 
@@ -602,6 +965,12 @@ function refresh(){
   document.getElementById('hours-left').textContent = '~' + Math.round(minsLeft/60);
   const next = allItems.find(e=>!watched.has(e.id));
   document.getElementById('upnext').textContent = next ? next.title.replace(/&amp;/g,'&') : 'Nothing — see you July 9, 2027 🎬';
+  /* the library keeps its own tally */
+  const bonusEl = document.getElementById('bonus-count');
+  if(bonusEl){
+    const bDone = bonusItems.filter(e=>watched.has(e.id)).length;
+    bonusEl.textContent = `${bDone}/${bonusItems.length}`;
+  }
 }
 
 /* ================= COUNTDOWN ================= */
