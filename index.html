@@ -264,7 +264,7 @@
 <header class="hero">
   <div class="eyebrow">The Complete DC Watch Order</div>
   <h1><span class="white">ROAD TO</span><br><span class="glow">TOMORROW</span></h1>
-  <p class="tagline">Every DC movie and show to watch before <b>Man of Tomorrow</b> — from Christopher Reeve to the new DCU, in exact order, with stop points. Then a full library of Gotham and DC animation below. Tap anything to check it off. Your progress saves on this device.</p>
+  <p class="tagline">Every DC movie and show to watch before <b>Man of Tomorrow</b> — from Christopher Reeve to the new DCU, in exact order, with stop points. Then a full library below: Smallville, Gotham, the Arrowverse, and all of DC animation. Tap anything to check it off. Your progress saves on this device.</p>
 
   <div class="countdown" id="countdown">
     <div class="tile"><b id="cd-days">–</b><span>Days</span></div>
@@ -342,8 +342,22 @@ const POSTERS = {
   lanterns:'https://upload.wikimedia.org/wikipedia/en/1/1f/Lanterns_%28TV_series%29_logo.png',
   clayface:'https://upload.wikimedia.org/wikipedia/en/4/4f/Clayface_%28film%29_poster.jpg',
 
-  /* --- Gotham --- */
+  /* --- live-action television --- */
+  smallville:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Smallville_2001_logo.svg/500px-Smallville_2001_logo.svg.png',
   gotham:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Gotham_%28DC_Entertainment_Television_series%29_logo.svg/330px-Gotham_%28DC_Entertainment_Television_series%29_logo.svg.png',
+
+  /* --- the Arrowverse --- */
+  arrow:'https://upload.wikimedia.org/wikipedia/en/1/1b/Arrow_Intertitle.png',
+  flashtv:'https://upload.wikimedia.org/wikipedia/commons/f/f3/The_Flash_%28Arrowverse_series%29_logo.png',
+  constantinetv:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Constantine_%28Arrowverse_television_series%29_logo.svg/500px-Constantine_%28Arrowverse_television_series%29_logo.svg.png',
+  vixen:'https://upload.wikimedia.org/wikipedia/en/4/44/Vixen_Intertitle.png',
+  supergirltv:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Supergirl_%28Arrowverse_television_series%29_logo.svg/1280px-Supergirl_%28Arrowverse_television_series%29_logo.svg.png',
+  legends:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/DC%27s_Legends_of_Tomorrow_%28production_logo%29.svg/500px-DC%27s_Legends_of_Tomorrow_%28production_logo%29.svg.png',
+  theray:'https://upload.wikimedia.org/wikipedia/en/a/a9/Freedom_Fighters_The_Ray_title_card.png',
+  blacklightning:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Black_Lighting_%28Berlanti_Productions%29_logo.svg/500px-Black_Lighting_%28Berlanti_Productions%29_logo.svg.png',
+  batwomantv:'https://upload.wikimedia.org/wikipedia/en/c/c3/Batwoman_TV_series_logo.png',
+  stargirl:'https://upload.wikimedia.org/wikipedia/en/1/1b/Stargirl_TV_series.jpeg',
+  supermanlois:'https://upload.wikimedia.org/wikipedia/en/b/b3/Superman_%26_Lois_%28TV_series%29.png',
 
   /* --- the DC Animated Universe --- */
   batas:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Batman-_The_Animated_Series_logo.svg/1280px-Batman-_The_Animated_Series_logo.svg.png',
@@ -586,15 +600,56 @@ const PARTS = [
    the completion figures so the road above stays honest.
    ============================================================ */
 {
-  roman:'VII', bonus:true, title:'Gotham', sub:'The city before the Batman — its own continuity, five seasons', entries:[
+  roman:'VII', bonus:true, title:'Live-Action Television', sub:'Two long-running shows, each entirely its own continuity', entries:[
+    {type:'item', id:'smallville', title:'Smallville', meta:'2001–11 (10 seasons, 217 eps)', rt:0, mins:9331, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Clark Kent from his first year of high school to the day he finally puts on the suit — and the show famously makes you wait all ten seasons for it.',
+      watchFor:'Michael Rosenbaum’s Lex Luthor, and the slow rot of his friendship with Clark. It is the best Lex any screen version has managed.',
+      tiesIn:'Its own world, with no connection to the films or the Arrowverse — though Tom Welling returned as this Clark during Crisis on Infinite Earths.'},
     {type:'item', id:'gotham', title:'Gotham', meta:'2014–19 (5 seasons, 100 eps)', rt:79, mins:4300, badge:'OPTIONAL', earth:'OWN CANON',
       note:'Jim Gordon’s first years as a detective in a Gotham that has no Batman yet, while a young Bruce Wayne slowly grows into the cowl. It ends where most Batman stories begin.',
       watchFor:'Every rogue getting an origin at once — a young Penguin, Riddler, and Poison Ivy — with Robin Lord Taylor’s Oswald Cobblepot as the standout.',
-      tiesIn:'It connects to nothing else on this list. A self-contained five-season prequel, and the only live-action DC series outside the film continuities here.'},
+      tiesIn:'Connects to nothing else here. A self-contained five-season prequel.'},
   ]
 },
 {
-  roman:'VIII', bonus:true, title:'The DC Animated Universe', sub:'Bruce Timm’s shared world, 1992–2006 — for many people, still the definitive DC',
+  roman:'VIII', bonus:true, title:'The Arrowverse', sub:'2012–2024 — a decade of shows built to cross over with each other',
+  entries:[
+    {type:'stop', id:'stop-arrowverse', text:'FOLLOW THE AIR DATES — These shows were made to interleave, not to be watched one series at a time. Take them in broadcast order across the whole set and the annual crossovers land where they should. Watching each show start-to-finish in isolation means meeting characters who have not been introduced yet.'},
+    {type:'item', id:'arrow', title:'Arrow', meta:'2012–20 (8 seasons, 170 eps)', rt:0, mins:7310, badge:'CORE', earth:'EARTH-1',
+      note:'The one that started it all. Oliver Queen comes home from five years on an island and starts working through a list of names.',
+      watchFor:'Season two, still the high point of the whole universe.',
+      tiesIn:'Every other show here spun out of this one. Barry Allen first appears in its second season.'},
+    {type:'item', id:'flashtv', title:'The Flash', meta:'2014–23 (9 seasons, 184 eps)', rt:0, mins:7912, badge:'CORE', earth:'EARTH-1',
+      note:'Barry Allen gets his powers and the universe gets its heart. Warmer and more optimistic than Arrow, and it carries the multiverse plots.',
+      watchFor:'The first season’s Reverse-Flash mystery, which is as tightly plotted as this universe ever got.',
+      tiesIn:'The hub for the crossovers, and the show that introduced the multiverse the whole franchise runs on.'},
+    {type:'item', id:'constantinetv', title:'Constantine', meta:'2014–15 (13 eps)', rt:0, mins:559, badge:'OPTIONAL', earth:'EARTH-1',
+      note:'Cancelled after one season on NBC, then quietly absorbed into this universe. Matt Ryan’s John Constantine later became a regular on Legends.'},
+    {type:'item', id:'vixen', title:'Vixen', meta:'2015–16 (animated shorts)', rt:0, mins:72, badge:'OPTIONAL', earth:'EARTH-1',
+      note:'An animated web series introducing Mari McCabe, who then appears in live action on Arrow and Legends.'},
+    {type:'item', id:'supergirltv', title:'Supergirl', meta:'2015–21 (6 seasons, 126 eps)', rt:0, mins:5418, badge:'CORE', earth:'EARTH-38 → EARTH-PRIME',
+      note:'Kara Danvers began on a separate Earth and only joined the others properly after Crisis. Melissa Benoist is excellent in it.',
+      watchFor:'The first crossover with The Flash, which is pure charm.',
+      tiesIn:'Crisis on Infinite Earths merges her world into the shared one.'},
+    {type:'item', id:'legends', title:'DC’s Legends of Tomorrow', meta:'2016–22 (7 seasons, 110 eps)', rt:0, mins:4730, badge:'OPTIONAL', earth:'EARTH-1',
+      note:'A team of the franchise’s misfits given a time machine. It starts shakily, then turns into the most enjoyable show of the lot once it stops taking itself seriously.'},
+    {type:'item', id:'theray', title:'Freedom Fighters: The Ray', meta:'2017–18 (animated shorts)', rt:0, mins:60, badge:'OPTIONAL', earth:'EARTH-X',
+      note:'Animated shorts tied to the Crisis on Earth-X crossover.'},
+    {type:'item', id:'blacklightning', title:'Black Lightning', meta:'2018–21 (4 seasons, 58 eps)', rt:0, mins:2494, badge:'OPTIONAL', earth:'SEPARATE → EARTH-PRIME',
+      note:'Jefferson Pierce, a headteacher and a retired hero, pulled back in. Stood apart from the others until Crisis brought it into the fold.'},
+    {type:'item', id:'batwomantv', title:'Batwoman', meta:'2019–22 (3 seasons, 51 eps)', rt:0, mins:2193, badge:'OPTIONAL', earth:'EARTH-PRIME',
+      note:'Kate Kane takes over a Gotham that Batman has abandoned. The lead role is recast after season one.'},
+    {type:'stop', id:'stop-crisis-tv', text:'CRISIS ON INFINITE EARTHS — Five episodes across Supergirl, Batwoman, The Flash, Arrow and Legends, in that order (December 2019 and January 2020). It is the centre of the whole franchise: it ends Arrow, collapses the separate Earths into one, and features Tom Welling’s Smallville Clark and Brandon Routh’s Superman Returns Kal-El. Do not watch it out of sequence.'},
+    {type:'item', id:'stargirl', title:'Stargirl', meta:'2020–22 (3 seasons, 39 eps)', rt:0, mins:1677, badge:'OPTIONAL', earth:'EARTH-2',
+      note:'Courtney Whitmore finds a cosmic staff and rebuilds the Justice Society in small-town Nebraska. Sunnier than the rest, and set on its own Earth.'},
+    {type:'item', id:'supermanlois', title:'Superman & Lois', meta:'2021–24 (4 seasons, 53 eps)', rt:0, mins:2279, badge:'CORE', earth:'OWN EARTH',
+      note:'Clark and Lois raise two teenage sons in Smallville. Widely rated the best-made live-action Superman on television, and a genuinely good family drama.',
+      watchFor:'Tyler Hoechlin’s Superman, and a version of Clark who is already a husband and father rather than an origin story.',
+      tiesIn:'Began inside this universe, then was confirmed to sit on its own Earth. You can watch it cold without any of the above.'},
+  ]
+},
+{
+  roman:'IX', bonus:true, title:'The DC Animated Universe', sub:'Bruce Timm’s shared world, 1992–2006 — for many people, still the definitive DC',
   entries:[
     {type:'item', id:'batas', title:'Batman: The Animated Series', meta:'1992–95 (85 eps)', rt:100, mins:1870, badge:'CORE', earth:'DCAU',
       note:'The show that defined Batman for a generation, and the one that invented Harley Quinn.',
@@ -630,7 +685,7 @@ const PARTS = [
   ]
 },
 {
-  roman:'IX', bonus:true, title:'The Animated Series Library', sub:'Everything outside the DCAU — each one its own continuity',
+  roman:'X', bonus:true, title:'The Animated Series Library', sub:'Everything outside the DCAU — each one its own continuity',
   entries:[
     {type:'item', id:'superfriends', title:'Super Friends', meta:'1973–86 (multiple runs)', rt:0, mins:0, badge:'OPTIONAL', earth:'CLASSIC',
       note:'Where the Justice League first reached television. Dated, gentle, and historically important. Dip in anywhere.'},
@@ -669,7 +724,7 @@ const PARTS = [
   ]
 },
 {
-  roman:'X', bonus:true, title:'The Standalone Animated Films', sub:'Each one its own story — no continuity, no order required',
+  roman:'XI', bonus:true, title:'The Standalone Animated Films', sub:'Each one its own story — no continuity, no order required',
   entries:[
     {type:'item', id:'doomsday07', title:'Superman: Doomsday', meta:'2007 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'STANDALONE',
       note:'The first of the direct-to-video line. A compressed take on the Death of Superman.'},
@@ -734,7 +789,7 @@ const PARTS = [
   ]
 },
 {
-  roman:'XI', bonus:true, title:'The DC Animated Movie Universe', sub:'2013–2020 — sixteen films telling one continuous story, in this order',
+  roman:'XII', bonus:true, title:'The DC Animated Movie Universe', sub:'2013–2020 — sixteen films telling one continuous story, in this order',
   entries:[
     {type:'item', id:'flashpoint', title:'Justice League: The Flashpoint Paradox', meta:'2013 (1 hr 21 min)', rt:0, mins:81, badge:'CORE', earth:'DCAMU',
       note:'The Flash rewrites history and creates this universe. Start here — nothing after it makes sense otherwise.',
@@ -776,7 +831,7 @@ const PARTS = [
   ]
 },
 {
-  roman:'XII', bonus:true, title:'The Tomorrowverse', sub:'2020–2024 — the continuity that replaced the DCAMU, ending in Crisis',
+  roman:'XIII', bonus:true, title:'The Tomorrowverse', sub:'2020–2024 — the continuity that replaced the DCAMU, ending in Crisis',
   entries:[
     {type:'item', id:'manoftomorrow20', title:'Superman: Man of Tomorrow', meta:'2020 (1 hr 26 min)', rt:0, mins:86, badge:'CORE', earth:'TOMORROWVERSE',
       note:'A young Clark in his first weeks on the job. Shares a title with the 2027 film, but is unrelated to it.'},
@@ -836,10 +891,10 @@ function libraryIntroHtml(){
   return `<div class="library-intro">
     <div class="eyebrow">Beyond the Road</div>
     <h2>The Wider DC Library</h2>
-    <p>Gotham, and every animated DC superhero project worth your time — the Timm-era
-    classics, the series, and all the films. None of it is homework for Man of Tomorrow,
-    so none of it counts toward the countdown or the percentage above. It has its own
-    tally instead.</p>
+    <p>Smallville, Gotham, the Arrowverse, and every animated DC superhero project worth
+    your time — the Timm-era classics, the series, and all the films. None of it is
+    homework for Man of Tomorrow, so none of it counts toward the countdown or the
+    percentage above. It has its own tally instead.</p>
     <div class="library-count"><b id="bonus-count">0/0</b> <span>watched in the library</span></div>
   </div>`;
 }
