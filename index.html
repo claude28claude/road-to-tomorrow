@@ -348,6 +348,12 @@ const POSTERS = {
   titans:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Titans_%282018_TV_series%29_logos.svg/960px-Titans_%282018_TV_series%29_logos.svg.png',
   doompatrol:'https://upload.wikimedia.org/wikipedia/en/1/11/Doom_Patrol_logo.jpg',
 
+  /* --- the Vertigo shelf --- */
+  constantine05:'https://upload.wikimedia.org/wikipedia/en/2/2b/Constantine_poster.jpg',
+  sandman:'https://upload.wikimedia.org/wikipedia/en/e/ed/The_Sandman_Netflix.jpg',
+  deadboy:'https://upload.wikimedia.org/wikipedia/en/0/09/Dead_Boy_Detectives_%28TV_series%29_Title_Card.png',
+  lucifer:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Lucifer_tv_logo.svg/960px-Lucifer_tv_logo.svg.png',
+
   /* --- the Arrowverse --- */
   arrow:'https://upload.wikimedia.org/wikipedia/en/1/1b/Arrow_Intertitle.png',
   flashtv:'https://upload.wikimedia.org/wikipedia/commons/f/f3/The_Flash_%28Arrowverse_series%29_logo.png',
@@ -489,7 +495,7 @@ const PARTS = [
     {type:'item', id:'batrobin', title:'Batman &amp; Robin', meta:'1997 (2 hr 5 min)', rt:12, mins:125, badge:'OPTIONAL', earth:'BURTONVERSE',
       note:'Bat-nipples and ice puns. The movie that froze the franchise for eight years — and made Batman Begins possible.'},
     {type:'side', id:'sq-odd', letter:'B', title:'Side quest: the glorious odds & ends', meta:'1997–2011',
-      note:'Steel (1997), Catwoman (2004, 🍅 8%), Constantine (2005), V for Vendetta (2005), Watchmen (2009), Jonah Hex (2010), Green Lantern (2011, 🍅 26%). None connect to anything — but Ryan Reynolds’ Green Lantern is the reason Lanterns (2026) had something to prove.'},
+      note:'Steel (1997), Catwoman (2004, 🍅 8%), V for Vendetta (2005), Watchmen (2009), Jonah Hex (2010), Green Lantern (2011, 🍅 26%). None connect to anything — but Ryan Reynolds’ Green Lantern is the reason Lanterns (2026) had something to prove. Constantine (2005) has its own entry on the Vertigo shelf below.'},
   ]
 },
 {
@@ -660,7 +666,25 @@ const PARTS = [
   ]
 },
 {
-  roman:'IX', bonus:true, title:'The DC Animated Universe', sub:'Bruce Timm’s shared world, 1992–2006 — for many people, still the definitive DC',
+  roman:'IX', bonus:true, title:'The Vertigo Shelf', sub:'DC’s adult imprint — magic, myth and nightmares rather than capes',
+  entries:[
+    {type:'item', id:'constantine05', title:'Constantine', meta:'2005 (2 hr 1 min)', rt:46, mins:121, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Keanu Reeves as a chain-smoking exorcist dying of lung cancer. Almost nothing like the blond Liverpudlian of the comics, and enjoyable anyway — it has aged into a cult favourite.',
+      watchFor:'Tilda Swinton’s androgynous Gabriel, and a Hell rendered as Los Angeles in a nuclear wind.',
+      tiesIn:'Stands alone. A sequel with Reeves has been in development for years.'},
+    {type:'item', id:'sandman', title:'The Sandman', meta:'2022–25 (2 seasons, 23 eps)', rt:0, mins:1035, badge:'CORE', earth:'THE ENDLESS',
+      note:'Neil Gaiman’s comic, filmed at last after decades of failed attempts. Dream of the Endless escapes a century of captivity and sets about rebuilding his kingdom. Season two completes the story.',
+      watchFor:'"The Sound of Her Wings", the quiet episode where Death walks a day among the living. It is the best hour of the show.',
+      tiesIn:'No superhero homework whatsoever — it borrows a few DC figures but stands entirely on its own.'},
+    {type:'item', id:'deadboy', title:'Dead Boy Detectives', meta:'2024 (8 eps)', rt:0, mins:360, badge:'OPTIONAL', earth:'THE ENDLESS',
+      note:'Two dead schoolboys refuse the afterlife and solve supernatural cases instead. Set in the Sandman’s world, and lighter than it.'},
+    {type:'item', id:'lucifer', title:'Lucifer', meta:'2016–21 (6 seasons, 93 eps)', rt:0, mins:3999, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'The Devil retires to Los Angeles and consults for the police. The character began in The Sandman, but the show shares no continuity with it — it is a procedural with charm, not a Vertigo adaptation.'},
+    {type:'stop', id:'stop-vertigo', text:'ONE MORE CONSTANTINE — The 2014 NBC series with Matt Ryan is not here; it sits in the Arrowverse part above, because that is where it was eventually absorbed. Matt Ryan then played the role for years on Legends of Tomorrow.'},
+  ]
+},
+{
+  roman:'X', bonus:true, title:'The DC Animated Universe', sub:'Bruce Timm’s shared world, 1992–2006 — for many people, still the definitive DC',
   entries:[
     {type:'item', id:'batas', title:'Batman: The Animated Series', meta:'1992–95 (85 eps)', rt:100, mins:1870, badge:'CORE', earth:'DCAU',
       note:'The show that defined Batman for a generation, and the one that invented Harley Quinn.',
@@ -696,7 +720,7 @@ const PARTS = [
   ]
 },
 {
-  roman:'X', bonus:true, title:'The Animated Series Library', sub:'Everything outside the DCAU — each one its own continuity',
+  roman:'XI', bonus:true, title:'The Animated Series Library', sub:'Everything outside the DCAU — each one its own continuity',
   entries:[
     {type:'item', id:'superfriends', title:'Super Friends', meta:'1973–86 (multiple runs)', rt:0, mins:0, badge:'OPTIONAL', earth:'CLASSIC',
       note:'Where the Justice League first reached television. Dated, gentle, and historically important. Dip in anywhere.'},
@@ -735,7 +759,7 @@ const PARTS = [
   ]
 },
 {
-  roman:'XI', bonus:true, title:'The Standalone Animated Films', sub:'Each one its own story — no continuity, no order required',
+  roman:'XII', bonus:true, title:'The Standalone Animated Films', sub:'Each one its own story — no continuity, no order required',
   entries:[
     {type:'item', id:'doomsday07', title:'Superman: Doomsday', meta:'2007 (1 hr 15 min)', rt:0, mins:75, badge:'OPTIONAL', earth:'STANDALONE',
       note:'The first of the direct-to-video line. A compressed take on the Death of Superman.'},
@@ -800,7 +824,7 @@ const PARTS = [
   ]
 },
 {
-  roman:'XII', bonus:true, title:'The DC Animated Movie Universe', sub:'2013–2020 — sixteen films telling one continuous story, in this order',
+  roman:'XIII', bonus:true, title:'The DC Animated Movie Universe', sub:'2013–2020 — sixteen films telling one continuous story, in this order',
   entries:[
     {type:'item', id:'flashpoint', title:'Justice League: The Flashpoint Paradox', meta:'2013 (1 hr 21 min)', rt:0, mins:81, badge:'CORE', earth:'DCAMU',
       note:'The Flash rewrites history and creates this universe. Start here — nothing after it makes sense otherwise.',
@@ -842,7 +866,7 @@ const PARTS = [
   ]
 },
 {
-  roman:'XIII', bonus:true, title:'The Tomorrowverse', sub:'2020–2024 — the continuity that replaced the DCAMU, ending in Crisis',
+  roman:'XIV', bonus:true, title:'The Tomorrowverse', sub:'2020–2024 — the continuity that replaced the DCAMU, ending in Crisis',
   entries:[
     {type:'item', id:'manoftomorrow20', title:'Superman: Man of Tomorrow', meta:'2020 (1 hr 26 min)', rt:0, mins:86, badge:'CORE', earth:'TOMORROWVERSE',
       note:'A young Clark in his first weeks on the job. Shares a title with the 2027 film, but is unrelated to it.'},
@@ -902,10 +926,10 @@ function libraryIntroHtml(){
   return `<div class="library-intro">
     <div class="eyebrow">Beyond the Road</div>
     <h2>The Wider DC Library</h2>
-    <p>Smallville, Gotham, Titans, Doom Patrol, the Arrowverse, and every animated DC
-    superhero project worth your time — the Timm-era classics, the series, and all the
-    films. None of it is homework for Man of Tomorrow, so none of it counts toward the
-    countdown or the percentage above. It has its own tally instead.</p>
+    <p>Smallville, Gotham, Titans, Doom Patrol, the Arrowverse, the Vertigo shelf, and
+    every animated DC project worth your time — the Timm-era classics, the series, and
+    all the films. None of it is homework for Man of Tomorrow, so none of it counts
+    toward the countdown or the percentage above. It has its own tally instead.</p>
     <div class="library-count"><b id="bonus-count">0/0</b> <span>watched in the library</span></div>
   </div>`;
 }
