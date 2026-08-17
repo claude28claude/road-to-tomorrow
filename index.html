@@ -345,6 +345,8 @@ const POSTERS = {
   /* --- live-action television --- */
   smallville:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Smallville_2001_logo.svg/500px-Smallville_2001_logo.svg.png',
   gotham:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Gotham_%28DC_Entertainment_Television_series%29_logo.svg/330px-Gotham_%28DC_Entertainment_Television_series%29_logo.svg.png',
+  titans:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Titans_%282018_TV_series%29_logos.svg/960px-Titans_%282018_TV_series%29_logos.svg.png',
+  doompatrol:'https://upload.wikimedia.org/wikipedia/en/1/11/Doom_Patrol_logo.jpg',
 
   /* --- the Arrowverse --- */
   arrow:'https://upload.wikimedia.org/wikipedia/en/1/1b/Arrow_Intertitle.png',
@@ -600,7 +602,7 @@ const PARTS = [
    the completion figures so the road above stays honest.
    ============================================================ */
 {
-  roman:'VII', bonus:true, title:'Live-Action Television', sub:'Two long-running shows, each entirely its own continuity', entries:[
+  roman:'VII', bonus:true, title:'Live-Action Television', sub:'Four series outside the films — and outside the Arrowverse below', entries:[
     {type:'item', id:'smallville', title:'Smallville', meta:'2001–11 (10 seasons, 217 eps)', rt:0, mins:9331, badge:'OPTIONAL', earth:'OWN CANON',
       note:'Clark Kent from his first year of high school to the day he finally puts on the suit — and the show famously makes you wait all ten seasons for it.',
       watchFor:'Michael Rosenbaum’s Lex Luthor, and the slow rot of his friendship with Clark. It is the best Lex any screen version has managed.',
@@ -609,6 +611,15 @@ const PARTS = [
       note:'Jim Gordon’s first years as a detective in a Gotham that has no Batman yet, while a young Bruce Wayne slowly grows into the cowl. It ends where most Batman stories begin.',
       watchFor:'Every rogue getting an origin at once — a young Penguin, Riddler, and Poison Ivy — with Robin Lord Taylor’s Oswald Cobblepot as the standout.',
       tiesIn:'Connects to nothing else here. A self-contained five-season prequel.'},
+    {type:'item', id:'titans', title:'Titans', meta:'2018–23 (4 seasons, 49 eps)', rt:0, mins:2205, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'Dick Grayson leaves Batman behind and assembles a darker, adult team around Raven, Starfire and Beast Boy. Grim in its first season, considerably warmer later.',
+      watchFor:'Season one’s standalone Doom Patrol episode, which introduces that team before their own show exists.',
+      tiesIn:'Its own continuity, unconnected to the films. Doom Patrol grew out of it — see below.'},
+    {type:'item', id:'doompatrol', title:'Doom Patrol', meta:'2019–23 (4 seasons, 46 eps)', rt:0, mins:2300, badge:'OPTIONAL', earth:'OWN CANON',
+      note:'The strangest thing DC has ever put on screen, and quite possibly the best. A group of broken, disfigured people who never wanted powers, played for real grief and genuine absurdity in equal measure.',
+      watchFor:'Brendan Fraser as Cliff Steele, and a villain who is a sentient street. It commits to its own weirdness completely.',
+      tiesIn:'Launched from a Titans episode, then went its own way with most of the cast recast — treat it as a separate continuity, and know that no Titans homework is required.'},
+    {type:'stop', id:'stop-doompatrol', text:'NOT THE SAME UNIVERSE — Doom Patrol began as an episode of Titans, but the series recast nearly everyone and tells an unrelated story. Watch it on its own; nothing in Titans is needed first.'},
   ]
 },
 {
@@ -891,10 +902,10 @@ function libraryIntroHtml(){
   return `<div class="library-intro">
     <div class="eyebrow">Beyond the Road</div>
     <h2>The Wider DC Library</h2>
-    <p>Smallville, Gotham, the Arrowverse, and every animated DC superhero project worth
-    your time — the Timm-era classics, the series, and all the films. None of it is
-    homework for Man of Tomorrow, so none of it counts toward the countdown or the
-    percentage above. It has its own tally instead.</p>
+    <p>Smallville, Gotham, Titans, Doom Patrol, the Arrowverse, and every animated DC
+    superhero project worth your time — the Timm-era classics, the series, and all the
+    films. None of it is homework for Man of Tomorrow, so none of it counts toward the
+    countdown or the percentage above. It has its own tally instead.</p>
     <div class="library-count"><b id="bonus-count">0/0</b> <span>watched in the library</span></div>
   </div>`;
 }
