@@ -33,6 +33,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   body{
     background:var(--bg);
     background-image:radial-gradient(ellipse 90% 50% at 50% -10%, rgba(93,155,255,.13), transparent),
@@ -86,6 +87,24 @@
     font-family:var(--mono);font-size:14px;letter-spacing:.22em;color:var(--ink-dim);text-transform:uppercase;
   }
   .premiere em{color:var(--gold);font-style:normal}
+
+  /* ===== Jump links ===== */
+  .jump{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+    margin:26px auto 0;max-width:700px;
+  }
+  .jump a{
+    font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--ink-dim);text-decoration:none;white-space:nowrap;
+    border:1px solid var(--card-edge);border-radius:99px;padding:7px 14px;
+    background:var(--card);transition:border-color .15s,color .15s;
+  }
+  .jump a:hover{border-color:var(--blue);color:var(--ink)}
+  .jump a:focus-visible{outline:2px solid var(--blue);outline-offset:2px;color:var(--ink)}
+  .jump a.hot{color:var(--gold);border-color:rgba(240,180,41,.45);background:rgba(240,180,41,.09)}
+  .jump a.hot:hover{border-color:var(--gold)}
+  /* keep a jumped-to heading clear of the top edge */
+  .part,.destination,.library-intro{scroll-margin-top:20px}
 
   /* ===== Progress bar ===== */
   .dash{
@@ -233,10 +252,15 @@
     max-width:600px;margin:14px auto 0;color:var(--ink-dim);font-size:15.5px;
   }
   .library-count{
-    margin-top:20px;display:inline-flex;align-items:baseline;gap:10px;
-    border:1px solid var(--card-edge);border-radius:99px;padding:8px 20px;background:var(--card);
+    margin-top:20px;display:inline-flex;flex-wrap:wrap;justify-content:center;
+    align-items:baseline;gap:4px 18px;max-width:100%;
+    border:1px solid var(--card-edge);border-radius:20px;padding:10px 20px;background:var(--card);
   }
-  .library-count b{font-family:var(--serif);font-size:22px;color:var(--blue)}
+  .library-count span{
+    white-space:nowrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
+    color:var(--ink-faint);text-transform:uppercase;
+  }
+  .library-count b{font-family:var(--serif);font-size:22px;color:var(--blue);margin-right:5px}
   .library-count span{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--ink-faint);text-transform:uppercase}
 
   footer{
@@ -245,6 +269,14 @@
   }
 
   @media (max-width:560px){
+    /* One swipeable strip beats ten stacked rows of chips on a phone.
+       It scrolls inside itself, so the page never moves sideways. */
+    .jump{
+      flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;
+      max-width:none;margin-left:-24px;margin-right:-24px;
+      padding:2px 24px 8px;scrollbar-width:none;
+    }
+    .jump::-webkit-scrollbar{display:none}
     .stop{margin-left:0}
     .tile{min-width:76px}
     .tile b{font-size:34px}
@@ -273,6 +305,8 @@
     <div class="tile"><b id="cd-secs">–</b><span>Secs</span></div>
   </div>
   <div class="premiere">Man of Tomorrow premieres <em>Jul 9, 2027</em></div>
+
+  <nav class="jump" id="jump" aria-label="Jump to a section"></nav>
 </header>
 
 <section class="dash">
@@ -379,7 +413,6 @@ const POSTERS = {
   static:'https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Static_Shock_%28DC_Comics_animated_series%29_logo.svg/500px-Static_Shock_%28DC_Comics_animated_series%29_logo.svg.png',
   jl01:'https://upload.wikimedia.org/wikipedia/en/6/6a/Justice_League_%28TV_series_logo%29.png',
   jlu:'https://upload.wikimedia.org/wikipedia/en/1/1e/Justice_League_Unlimited_logo.png',
-  zeta:'https://upload.wikimedia.org/wikipedia/en/9/90/The_Zeta_Project_%28logo%29.png',
 
   /* --- animated series outside the DCAU --- */
   superfriends:'https://upload.wikimedia.org/wikipedia/en/c/c0/Super_Friends.jpg',
@@ -397,7 +430,6 @@ const POSTERS = {
   mawsuperman:'https://upload.wikimedia.org/wikipedia/en/6/62/My_Adventures_with_Superman_%282023%29.png',
   caped:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Batman-Caped_Crusader_animated_series_logo.svg/500px-Batman-Caped_Crusader_animated_series_logo.svg.png',
   kiteman:'https://upload.wikimedia.org/wikipedia/en/5/58/Kite_Man_Hell_Yeah_title_card.png',
-  dcshg:'https://upload.wikimedia.org/wikipedia/commons/a/ac/DC_Super_Hero_Girls_logo.png',
 
   /* --- standalone animated films --- */
   doomsday07:'https://upload.wikimedia.org/wikipedia/en/c/c5/Superman_Doomsday_logo.JPG',
@@ -597,11 +629,11 @@ const PARTS = [
       note:'R-rated body-horror tragedy written by Mike Flanagan. Tom Rhys Harries as Matt Hagen — the DCU’s first Gotham story.',
       watchFor:'The DCU’s first look at Gotham City — before The Brave and the Bold gets there.',
       tiesIn:'Proof of the DCU’s range: a horror film counts as canon too.'},
-    {type:'item', id:'waller', title:'Waller', meta:'Announced · no release date', rt:0, mins:0, badge:'OPTIONAL', earth:'DCU',
+    {type:'item', id:'waller', title:'Waller', meta:'Announced · date &amp; runtime TBA', rt:0, mins:0, badge:'OPTIONAL', earth:'DCU',
       note:'<strong>Announced, but stalled.</strong> Viola Davis’ Amanda Waller carrying her own series, spun straight out of Peacemaker, from Christal Henry and Jeremy Carver. HBO said in March 2026 that it was not close to production, and it was reported in August 2026 to be on the back burner. It is here because it is announced — not because it is coming soon.',
       watchFor:'Nothing yet. No footage, no date, and no cast confirmed beyond Davis herself.',
       tiesIn:'Would pick Waller up from her two seasons of Peacemaker and her handling of the Creature Commandos.'},
-    {type:'item', id:'bluebeetletv', title:'Blue Beetle', meta:'Animated series · targeting 2026', rt:0, mins:0, badge:'OPTIONAL', earth:'DCU',
+    {type:'item', id:'bluebeetletv', title:'Blue Beetle', meta:'Animated series · targeting 2026 · runtime TBA', rt:0, mins:0, badge:'OPTIONAL', earth:'DCU',
       note:'Xolo Maridueña returns as Jaime Reyes in an animated series set in the DCU, with Miguel Puga as showrunner and the 2023 film’s director and writer producing. Aimed at 2026, though no date has been fixed.',
       watchFor:'The confirmation the film only hinted at — that Jaime carries forward into the new canon rather than being left behind with the DCEU.',
       tiesIn:'A direct continuation of Blue Beetle (2023) from the DCEU part above.'},
@@ -730,7 +762,7 @@ const PARTS = [
 {
   roman:'XI', bonus:true, title:'The Animated Series Library', sub:'Everything outside the DCAU — each one its own continuity',
   entries:[
-    {type:'item', id:'superfriends', title:'Super Friends', meta:'1973–86 (multiple runs)', rt:0, mins:0, badge:'OPTIONAL', earth:'CLASSIC',
+    {type:'item', id:'superfriends', title:'Super Friends', meta:'1973–86 (multiple series, ~100 eps)', rt:0, mins:2900, badge:'OPTIONAL', earth:'CLASSIC',
       note:'Where the Justice League first reached television. Dated, gentle, and historically important. Dip in anywhere.'},
     {type:'item', id:'teentitans03', title:'Teen Titans', meta:'2003–06 (65 eps)', rt:100, mins:1430, badge:'CORE', earth:'OWN CANON',
       note:'Anime-inflected, funnier and sadder than expected. The Terra arc still lands.'},
@@ -750,7 +782,7 @@ const PARTS = [
       note:'Hal Jordan in deep space, in CG. Cancelled far too early on a cliffhanger.'},
     {type:'item', id:'bewarebatman', title:'Beware the Batman', meta:'2013–14 (26 eps)', rt:0, mins:572, badge:'OPTIONAL', earth:'OWN CANON',
       note:'An early Batman with Katana as his partner and unusual villains. Buried by scheduling.'},
-    {type:'item', id:'ttgo', title:'Teen Titans Go!', meta:'2013–present', rt:0, mins:0, badge:'OPTIONAL', earth:'OWN CANON',
+    {type:'item', id:'ttgo', title:'Teen Titans Go!', meta:'2013–present (400+ 11-min eps)', rt:0, mins:4400, badge:'OPTIONAL', earth:'OWN CANON',
       note:'Loud, silly, enormously popular, and hated by fans of the 2003 show. Hundreds of short episodes — no order needed.'},
     {type:'item', id:'jlaction', title:'Justice League Action', meta:'2016–18 (52 eps)', rt:0, mins:572, badge:'OPTIONAL', earth:'OWN CANON',
       note:'Eleven-minute stories with Kevin Conroy back as Batman. Snack-sized and better than it had to be.'},
@@ -921,8 +953,36 @@ PARTS.forEach(p => p.entries.forEach(e => {
   if(e.type === 'item') (p.bonus ? bonusItems : allItems).push(e);
 }));
 
+/* Short labels for the jump links — the part titles themselves are too long
+   to sit in a row of chips. */
+const JUMP_LABELS = {
+  I:'Reeve era', II:'Burton &amp; Schumacher', III:'Dark Knight', IV:'DCEU',
+  V:'Elseworlds', VI:'Gunn’s DCU', VII:'Live-action TV', VIII:'Arrowverse',
+  IX:'Vertigo', X:'DCAU', XI:'Animated series', XII:'Animated films',
+  XIII:'DCAMU', XIV:'Tomorrowverse'
+};
+
+function buildJumpNav(){
+  const nav = document.getElementById('jump');
+  if(!nav) return;
+  let html = '';
+  let tailAdded = false;
+  PARTS.forEach((part, i) => {
+    /* the destination and the library divider sit between the road and the
+       bonus parts, so their links belong in the same place */
+    if(part.bonus && !tailAdded){
+      html += `<a href="#destination">Man of Tomorrow</a><a href="#library">The library</a>`;
+      tailAdded = true;
+    }
+    const label = JUMP_LABELS[part.roman] || part.title;
+    html += `<a href="#part-${i}"${part.roman === 'VI' ? ' class="hot"' : ''}>${label}</a>`;
+  });
+  if(!tailAdded) html += `<a href="#destination">Man of Tomorrow</a>`;
+  nav.innerHTML = html;
+}
+
 function destinationHtml(){
-  return `<div class="destination">
+  return `<div class="destination" id="destination">
     <div class="eyebrow">The Destination</div>
     <h2><em>${DEST.title}</em></h2>
     <p><b>In theaters ${DEST.date}.</b> ${DEST.blurb}</p>
@@ -931,14 +991,17 @@ function destinationHtml(){
 }
 
 function libraryIntroHtml(){
-  return `<div class="library-intro">
+  return `<div class="library-intro" id="library">
     <div class="eyebrow">Beyond the Road</div>
     <h2>The Wider DC Library</h2>
     <p>Smallville, Gotham, Titans, Doom Patrol, the Arrowverse, the Vertigo shelf, and
     every animated DC project worth your time — the Timm-era classics, the series, and
     all the films. None of it is homework for Man of Tomorrow, so none of it counts
     toward the countdown or the percentage above. It has its own tally instead.</p>
-    <div class="library-count"><b id="bonus-count">0/0</b> <span>watched in the library</span></div>
+    <div class="library-count">
+      <span><b id="bonus-count">0/0</b> watched</span>
+      <span><b id="bonus-hours">–</b> hours to go</span>
+    </div>
   </div>`;
 }
 
@@ -1068,6 +1131,8 @@ function refresh(){
   if(bonusEl){
     const bDone = bonusItems.filter(e=>watched.has(e.id)).length;
     bonusEl.textContent = `${bDone}/${bonusItems.length}`;
+    const bMins = bonusItems.filter(e=>!watched.has(e.id)).reduce((s,e)=>s+(e.mins||0),0);
+    document.getElementById('bonus-hours').textContent = '~' + Math.round(bMins/60);
   }
 }
 
@@ -1114,6 +1179,7 @@ document.getElementById('share-btn').addEventListener('click', async function(){
 });
 
 render();
+buildJumpNav();
 tick();
 
 /* Register the service worker. It is what lets Chrome offer "Install app",
